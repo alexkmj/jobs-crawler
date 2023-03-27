@@ -111,6 +111,9 @@ function SearchCard() {
             <Container maxWidth="lg" sx={{ marginTop: 4 }} >
               <Card sx={{ minWidth: 275, backgroundColor: "#f8f7f9", borderRadius: "16px", padding: 4 }}>
                 <CardContent>
+                  <div>
+                    Number of Results: { jobs.length }
+                  </div>
                   { jobs.map(job => {
                       return (
                         <div key={job.url} style={{ marginTop: '48px' }}>
