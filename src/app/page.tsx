@@ -53,7 +53,9 @@ function SearchCard() {
   const search = () => {
     axios.post('/api/jobs', {
       term: terms,
-      
+      salaryMin: salaryMin,
+      salaryMax: salaryMax,
+      experienceMax: experience,
     })
     .then(function (response) {
       if (!response || !Array.isArray(response.data.result)) {

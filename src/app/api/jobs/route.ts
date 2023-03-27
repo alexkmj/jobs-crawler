@@ -49,22 +49,21 @@ export async function GET(request: Request): Promise<NextResponse | Response> {
 async function getQuery(request: Request):  Promise<(string | number)[]> {
     let { searchParams } = new URL(request.url);
 
-    request.json().then(x => {
-        console.log(x);
-    });
+    return request.json()
+        .then(json => {
+            const term = json.term
+                ? "%" + json.term + "%"
+                : "%";
 
-    const term = searchParams.get("term")
-        ? "%" + searchParams.get("term") + "%"
-        : "%"; 
-
-    return [
-        term,
-        term,
-        searchParams.get("salaryMin") || 0,
-        searchParams.get("salaryMax") || 30000,
-        searchParams.get("experienceMin") || 0,
-        searchParams.get("experienceMax") || 10,
-    ]
+            return [
+                term,
+                term,
+                json.salaryMin || 0,
+                json.salaryMax || 30000,
+                json.experienceMin || 0,
+                json.experienceMax || 10,
+            ]
+        });
 }
 
 async function select<T>(db: Database, sql: string, params: (string | number)[]): Promise<T[]> {
