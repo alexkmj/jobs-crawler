@@ -52,7 +52,8 @@ function SearchCard() {
 
   const search = () => {
     axios.post('/api/jobs', {
-
+      term: terms,
+      
     })
     .then(function (response) {
       if (!response || !Array.isArray(response.data.result)) {
@@ -108,7 +109,7 @@ function SearchCard() {
           <CardContent>
             { jobs.map(job => {
                 return (
-                  <div>
+                  <div key={job.url}>
                     <h4><a href={job.url}>{job.title}</a></h4>
                     <h4>{job.company}</h4>
                     <h4>{job.salary_min} - {job.salary_max}</h4>

@@ -33,7 +33,7 @@ export async function GET(request: Request): Promise<NextResponse | Response> {
         GROUP BY company.company, description;
     `;
 
-    const query = getQuery(request);
+    const query = await getQuery(request);
 
     return select<Job>(db, sql, query)
         .then(job => {
@@ -46,8 +46,12 @@ export async function GET(request: Request): Promise<NextResponse | Response> {
         });
 }
 
-function getQuery(request: Request): (string | number)[] {
-    const { searchParams } = new URL(request.url);
+async function getQuery(request: Request):  Promise<(string | number)[]> {
+    let { searchParams } = new URL(request.url);
+
+    request.json().then(x => {
+        console.log(x);
+    });
 
     const term = searchParams.get("term")
         ? "%" + searchParams.get("term") + "%"
