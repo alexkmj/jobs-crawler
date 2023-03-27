@@ -22,7 +22,7 @@ function SearchCard() {
   const [terms, setTerms] = useState("");
   const [salaryMin, setSalaryMin] = useState(0);
   const [salaryMax, setSalaryMax] = useState(10000);
-  const [experience, setExperience] = useState(2);
+  const [experience, setExperience] = useState(3);
   const [jobs, setJobs] = useState([] as Job[]);
 
   const updateString = (fun: React.Dispatch<React.SetStateAction<string>>) => {
@@ -67,7 +67,7 @@ function SearchCard() {
   return (
     <>
       <Container maxWidth="lg" sx={{ marginTop: 8 }} >
-        <Card sx={{ minWidth: 275, backgroundColor: "#f8f7f9" }}>
+        <Card sx={{ minWidth: 275, backgroundColor: "#f8f7f9", borderRadius: "16px", padding: 4 }}>
           <CardContent>
             <TextField id="terms"
               fullWidth
@@ -103,24 +103,30 @@ function SearchCard() {
           </CardContent>
         </Card>
       </Container>
-
-      <Container maxWidth="lg" sx={{ marginTop: 8 }} >
-        <Card sx={{ minWidth: 275, backgroundColor: "#f8f7f9" }}>
-          <CardContent>
-            { jobs.map(job => {
-                return (
-                  <div key={job.url}>
-                    <h4><a href={job.url}>{job.title}</a></h4>
-                    <h4>{job.company}</h4>
-                    <h4>{job.salary_min} - {job.salary_max}</h4>
-                    <p>{job.description}</p>
-                  </div>
-                )
-              })
-            }
-          </CardContent>
-        </Card>
-      </Container>
+      {
+        Array.isArray(jobs) && jobs.length > 0
+          ? (
+            <Container maxWidth="lg" sx={{ marginTop: 4 }} >
+              <Card sx={{ minWidth: 275, backgroundColor: "#f8f7f9", borderRadius: "16px", padding: 4 }}>
+                <CardContent>
+                  { jobs.map(job => {
+                      return (
+                        <div key={job.url} style={{ marginTop: '48px' }}>
+                          <h4><a href={job.url}>{job.title}</a></h4>
+                          <h4>{job.company}</h4>
+                          <h4>{job.salary_min} - {job.salary_max}</h4>
+                          <div dangerouslySetInnerHTML={{ __html: job.description }} />
+                        </div>
+                      )
+                    })
+                  }
+                </CardContent>
+              </Card>
+            </Container>
+            )
+          :
+          <div></div>
+      }
     </>
   );
 }
