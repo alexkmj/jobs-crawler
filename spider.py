@@ -154,7 +154,7 @@ def fetch_search_page(href: str, search_term: str, page: int):
 def fetch_job():
     domain = "https://api.mycareersfuture.gov.sg"
     path = "/v2/search"
-    search_term = "software engineer"
+    search_term = "computer science"
 
     fetch_search_page(domain + path, search_term, 0)
 

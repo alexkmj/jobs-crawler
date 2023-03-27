@@ -67,7 +67,6 @@ async function getQuery(request: Request):  Promise<(string | number)[]> {
 }
 
 async function select<T>(db: Database, sql: string, params: (string | number)[]): Promise<T[]> {
-    console.log(params.length);
     return new Promise<T[]>((resolve, reject) => {
         if (params.length != 6) {
             reject("Invalid number of parameters");
@@ -77,8 +76,4 @@ async function select<T>(db: Database, sql: string, params: (string | number)[])
             resolve(rows);
         })
     })
-}
-
-function prepareStatement() {
-    
 }

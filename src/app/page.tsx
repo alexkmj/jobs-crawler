@@ -10,11 +10,36 @@ import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import { Job } from './api/jobs/route';
 
+import Grid from '@mui/material/Unstable_Grid2';
+
 export default function Home() {
   return (
     <main>
       <SearchCard></SearchCard>
     </main>
+  )
+}
+
+function JobCard(job: Job) {
+  return (
+    <Container maxWidth="lg" sx={{ marginTop: 4 }} >
+      <Card sx={{ minWidth: 275, backgroundColor: "#f8f7f9", borderRadius: "16px", padding: 4 }}>
+        <CardContent>
+          <Grid container>
+            <Grid xs={9}>
+              <h2>{job.title}</h2>
+              <div dangerouslySetInnerHTML={{ __html: job.description }} />
+            </Grid>
+            <Grid xs={3}>
+              <h4>{job.company}</h4>
+              <h4>${job.salary_min} - ${job.salary_max}</h4>
+              <h4>Minimum Experience: {job.min_years_of_experience} Years</h4>
+              <Button size="large" variant="contained" sx={{ verticalAlign: "bottom" }} href={job.url} target="_blank" rel="noreferrer" >View</Button>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
+    </Container>
   )
 }
 
@@ -107,28 +132,9 @@ function SearchCard() {
       </Container>
       {
         Array.isArray(jobs) && jobs.length > 0
-          ? (
-            <Container maxWidth="lg" sx={{ marginTop: 4 }} >
-              <Card sx={{ minWidth: 275, backgroundColor: "#f8f7f9", borderRadius: "16px", padding: 4 }}>
-                <CardContent>
-                  <div>
-                    Number of Results: { jobs.length }
-                  </div>
-                  { jobs.map(job => {
-                      return (
-                        <div key={job.url} style={{ marginTop: '48px' }}>
-                          <h4><a href={job.url}>{job.title}</a></h4>
-                          <h4>{job.company}</h4>
-                          <h4>{job.salary_min} - {job.salary_max}</h4>
-                          <div dangerouslySetInnerHTML={{ __html: job.description }} />
-                        </div>
-                      )
-                    })
-                  }
-                </CardContent>
-              </Card>
-            </Container>
-            )
+          ? jobs.map(job => {
+              return JobCard(job);
+            })
           :
           <div></div>
       }
